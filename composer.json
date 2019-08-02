@@ -1,0 +1,35 @@
+{
+  "name": "yanlongli/yii-to-fast",
+  "description": "Yii2 快速开发转换，参考ThinkPHP、Laravel框架进行基础功能的扩展，如Request、Cache、Db、Session、Cookie等",
+  "type": "yii2-extension",
+  "homepage": "http://blog.yanlongli.com/",
+  "require": {
+    "php": ">=5.6.0",
+    "yiisoft/yii2": "~2.0.14"
+  },
+  "autoload": {
+    "psr-4": {
+      "yanlongli\\yii2\\fast\\": "src"
+    }
+  },
+  "keywords": [
+    "yii",
+    "thinkphp",
+    "laravel",
+    "request",
+    "db",
+    "redis",
+    "cache",
+    "session",
+    "cookie",
+    "fast"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Yanlongli",
+      "email": "ahlyl94@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev"
+}
