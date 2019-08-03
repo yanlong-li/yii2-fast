@@ -26,6 +26,8 @@ class Request
      */
     public static function param($name = null, $default = null)
     {
+        // 合并Get和Post数据，以Post为主覆盖Get数据
+        $params = array_merge(self::get(), self::post());
         if (is_string($name) && strlen(trim($name)) > 0) {
 
             $suffix = substr($name, -2);
@@ -41,7 +43,6 @@ class Request
                 $suffix = null;
             }
 
-            $params = array_merge(self::get(), self::post());
             if (isset($params[$name])) {
                 return self::modification($params[$name], $suffix);
             }
@@ -50,7 +51,7 @@ class Request
 
         }
 
-        return null;
+        return $params;
     }
 
     public static function get($name = null, $default = null)
