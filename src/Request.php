@@ -80,10 +80,10 @@ class Request
                 $_value = (integer)$value;
                 break;
             case '/b':
-                if ($value === 'true') {
+                if (in_array(strtolower($value), ['true', 1, 't'])) {
                     $value = true;
                 }
-                if ($value === 'false') {
+                if (in_array(strtolower($value), ['false', 0, 'f'])) {
                     $value = false;
                 }
                 $_value = (boolean)$value;
