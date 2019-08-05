@@ -15,7 +15,7 @@ class Config
     protected static $config = null;
     protected static $init = false;
 
-    protected static function init()
+    public static function init()
     {
         //加载公共配置
         $commonConfigPath = \Yii::$app->basePath . '/../common/config';
@@ -25,12 +25,6 @@ class Config
         //加载模块配置
         $moduleConfigPath = \Yii::$app->basePath . '/config';
         static::LoadConfigFile($moduleConfigPath);
-    }
-
-    protected static function checkInit()
-    {
-        if (!static::$init)
-            static::init();
     }
 
     /**
@@ -46,10 +40,9 @@ class Config
      */
     public static function get($name = '', $default = null, $config = null)
     {
-        static::checkInit();
         if ($config == null) {
             if (is_null(static::$config)) {
-                static::$config = \Yii::$app->params;
+                static::$config['params'] = \Yii::$app->params;
             }
             $config = static::$config;
         }
@@ -69,11 +62,19 @@ class Config
         }
     }
 
-    protected static function LoadConfigFile($path)
+    public static function LoadConfigFile($path)
     {
-        //1、首先先读取文件夹
-        $temp = scandir($path);
-        $config = [];
+        if (is_file($path)) {
+            //文件伪装成文件夹文件夹
+            $basename = basename($path);
+            $temp[] = $basename;
+            $path = substr($path, 0, -strlen($basename));
+        } else {
+            //读取文件夹
+            $temp = scandir($path);
+        }
+
+        $_config = [];
         //遍历文件夹
         foreach ($temp as $v) {
             $a = $path . '/' . $v;
@@ -107,5 +108,6 @@ class Config
             }
 
         }
+        return $_config;
     }
 }

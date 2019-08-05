@@ -39,6 +39,11 @@ Yii2 快速开发扩展插件
  
 ## 更新日志
     2019年8月5日
+    修复Config 未初始化时 params未放置到数组中
+    增加自动初始化类
+    开放加载自定义配置文件
+    
+    2019年8月5日
     增加Config类
         目前仅支持读取 get 
         排除Yii的主要配置如 main test bootstrap codeception
