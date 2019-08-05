@@ -61,7 +61,34 @@ class Request
 
     public static function post($name = null, $default = null)
     {
-        return \Yii::$app->request->post($name, $default);
+        $rawContentType = \Yii::$app->request->getContentType();
+        if (($pos = strpos($rawContentType, ';')) !== false) {
+            $contentType = substr($rawContentType, 0, $pos);
+        } else {
+            $contentType = $rawContentType;
+        }
+        $data = $default;
+        switch ($contentType) {
+            case 'application/json':
+                $data = json_decode(file_get_contents('php://input'), true);
+                break;
+            case 'application/xml':
+            case 'text/xml':
+                $xml = simplexml_load_string(file_get_contents('php://input'), 'SimpleXMLElement', LIBXML_NOCDATA);
+                $data = json_decode(json_encode($xml), true);
+                break;
+            case 'text/plain':
+            case 'application/javascript':
+            case 'text/html':
+                break;
+            case 'multipart/form-data':
+            default:
+                $data = \Yii::$app->request->post($name, $default);
+                break;
+
+        }
+
+        return $data;
     }
 
     public static function isGet()
