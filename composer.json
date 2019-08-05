@@ -1,5 +1,5 @@
 {
-  "name": "yanlongli/yii-to-fast",
+  "name": "yanlongli/yii2-fast",
   "description": "Yii2 快速开发转换，参考ThinkPHP、Laravel框架进行基础功能的扩展，如Request、Cache、Db、Session、Cookie等",
   "type": "yii2-extension",
   "homepage": "http://blog.yanlongli.com/",
