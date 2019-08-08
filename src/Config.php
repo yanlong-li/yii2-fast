@@ -94,7 +94,7 @@ class Config
                         $k = substr($v, 0, -4);
                     }
                     // 过滤 Yii 的主要配置文件
-                    if (in_array($k, ['main', 'codeception', 'bootstrap', 'test'])) {
+                    if (in_array($k, ['main', 'codeception', 'bootstrap', 'test']) || substr($v, -4) !== '.php') {
                         continue;
                     }
 
