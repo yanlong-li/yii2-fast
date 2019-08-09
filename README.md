@@ -38,6 +38,13 @@ Yii2 快速开发扩展插件
  因为我比较懒
  
 ## 更新日志
+    
+    2019年8月9日
+    Config 修复主配置比-local.php级别高的问题
+    
+    2019年8月8日
+    Config 排除非php文件
+    
     2019年8月5日
     更换包名 
     yanlongli/yii2-fast
