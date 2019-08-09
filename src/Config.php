@@ -73,7 +73,8 @@ class Config
             //读取文件夹
             $temp = scandir($path);
         }
-
+        // 反向排序文件顺序 因为 -local.php 的 - 比. 的优先级高
+        rsort($temp);
         $_config = [];
         //遍历文件夹
         foreach ($temp as $v) {
