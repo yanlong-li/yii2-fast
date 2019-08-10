@@ -78,7 +78,7 @@ class Lang
     {
 
         if (is_null(self::$langAliases)) {
-            self::$langAliases = require __DIR__ . './lib/lang.aliases.php';
+            self::$langAliases = require __DIR__ . '/lib/lang.aliases.php';
         }
         $langKey = null;
         foreach (self::$langAliases as $key => $alias) {
