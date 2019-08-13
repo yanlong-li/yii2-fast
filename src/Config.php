@@ -56,6 +56,8 @@ class Config
                 $newName = $name[0];
                 unset($name[0]);
                 $name = implode('.', $name);
+            } else {
+                return null;
             }
 
             return static::get($name, null, $config[$newName]);
@@ -98,12 +100,13 @@ class Config
                     if (in_array($k, ['main', 'codeception', 'bootstrap', 'test']) || substr($v, -4) !== '.php') {
                         continue;
                     }
-
-                    $_config = require $a;
-                    if (isset(static::$config[$k])) {
-                        static::$config[$k] = array_merge(static::$config[$k], $_config);
-                    } else {
-                        static::$config[$k] = $_config;
+                    if (file_exists($a)) {
+                        $_config = require $a;
+                        if (isset(static::$config[$k])) {
+                            static::$config[$k] = array_merge(static::$config[$k], $_config);
+                        } else {
+                            static::$config[$k] = $_config;
+                        }
                     }
                 }
             }
