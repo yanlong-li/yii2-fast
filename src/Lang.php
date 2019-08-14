@@ -33,9 +33,12 @@ class Lang
 
     public static function getLang()
     {
-        // 先檢測用戶是否設定顯示語言
-        if (Request::param('language/s')) {
-            return static::langAliases(Request::param('language/s'));
+        // 修复console命令执行yii2框架 导致Request模型不一致导致报错问题
+        if (\Yii::$app->request instanceof \yii\web\Request) {
+            // 先檢測用戶是否設定顯示語言
+            if (Request::param('language/s')) {
+                return static::langAliases(Request::param('language/s'));
+            }
         }
         // 先檢測用戶是否設定顯示語言
         if (isset($_COOKIE['language'])) {

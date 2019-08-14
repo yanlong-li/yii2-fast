@@ -1,7 +1,7 @@
 Yii2 快速开发扩展插件
 =
 
-> 本不想使用Yii2框架，奈何公司要求只能使用Yii2框架。于是乎此扩展出生。
+> 支持Config、Lang、Request、AR(db/model)、Cache、Pagination、Controller
 
 ## 前言
 
@@ -18,7 +18,66 @@ Yii2 快速开发扩展插件
     Request、Cookie、Session、Cache、Db
     
     以及支持表模型的多态关联、自动化的远程关联
-    
+## 使用方法
+### Request
+#### 变量获取
+变量获取使用 Request 类的如下方法及参数：
+
+变量类型方法('变量名/变量修饰符','默认值')
+变量类型方法包括：
+
+|方法|描述|备注|
+|---|---|---|
+|get|获取 $_GET 变量|
+|post|获取 $_POST 变量|支持JSON、XML|
+|param|参数集合|支持获取get和post的集合，以Post为主合并数组|
+|except|参数过滤|该方法第一个参数可过滤指定的参数，兼容字符串（用英文逗号分隔）、数组|
+|only|指定参数|该方法用于获取列表内的输入参数，与filter相反|
+### Config
+|方法|描述|备注|
+|---|---|---|
+|get|获取配置|支持递归获取`(site.name)`|
+|set|设置配置|支持递归`('site.name','app')`|
+### Controller
+    assign 设置视图参数 支持数组批量设置
+    render 和Yii作用一样，无需传递视图名称，默认为当前方法名称
+### Cache
+    get 获取
+    set 设置
+    delete 删除
+    has 判断是否存在
+    pull 获取并删除
+    inc 自增 支持步长
+    dec 自减 支持步长
+    clear 清空所有缓存
+### ActiveRecord
+    morphOne 多态一对一关联
+    morphMany 多态一对多关联
+    morphTo 多态反向关联
+    getMorphAliasName 多态类获取别名
+    hasOneThrough 远程一对一关联
+    hasManyThrough 远程一对多关联
+    hasOne 一对一关联
+    hasMany 一对多关联
+    belongsTo 反向关联
+### Pagination
+    page($model,$param) 设定好条件的模型，参数 [pageConfig=>[page,totalCount...]] 设置分页类的参数
+### Lang
+    自动识别当前浏览器的语言 目前支持中文地区和英文地区
+    t() 作用同 Yii::t()
+    getLang() 获取当前语言
+    setLang 设置语言
+    langAliases 根据别名获取语言
+    init 初始化语言分类 默认为 app
+### Cookie
+    set 设置
+    get 获取
+    deltete 删除
+    clear 清空
+    has 判断是否存在
+### Validator
+[验证器请参考ThikPHP](https://www.kancloud.cn/manual/thinkphp6_0/1037623)
+部分功能未实现
 
 `ps:具体支不支持请关注更新日志和操作说明`
 ## 已支持
@@ -38,6 +97,15 @@ Yii2 快速开发扩展插件
  因为我比较懒
  
 ## 更新日志
+    2019年8月14日
+    紧急修复，Lang 初始化 调用 Request 在命令行模式 Request 类非 WebRquest 问题导致报错问题
+    Config 新增支持递归参数合并
+    Request 新增Method判断，参考 ThinkPHP
+    新增 Cookie操作，源码来自 ThinkPHP
+    Config 新增支持子目录配置文件，合并到同名主目录配置文件（如果存在）
+    调整 Request 参数修饰符，支持多字符类型 来源 ThinkPHP
+    新增 Validator 验证器 来源 ThinkPHP
+    
     2019年8月13日
     修复 Config 连贯模式不存在的主参数导致报错问题
 
