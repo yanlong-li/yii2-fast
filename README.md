@@ -97,8 +97,11 @@ Yii2 快速开发扩展插件
  因为我比较懒
  
 ## 更新日志
+    2019年8月21日
+    修复Request在接收Json或XML格式数据时数据格式不正确导致报错问题，返回空数组或默认值
+    
     2019年8月14日
-    紧急修复，Lang 初始化 调用 Request 在命令行模式 Request 类非 WebRquest 问题导致报错问题
+    紧急修复，Lang 初始化 调用 \Yii::$app->request 在命令行模式 yii\base\Request 类非 yii\web\Request 问题导致报错问题
     Config 新增支持递归参数合并
     Request 新增Method判断，参考 ThinkPHP
     新增 Cookie操作，源码来自 ThinkPHP

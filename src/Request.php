@@ -112,24 +112,28 @@ class Request
             $contentType = $rawContentType;
         }
         $data = $default;
-        switch ($contentType) {
-            case 'application/json':
-                $data = json_decode(file_get_contents('php://input'), true);
-                break;
-            case 'application/xml':
-            case 'text/xml':
-                $xml = simplexml_load_string(file_get_contents('php://input'), 'SimpleXMLElement', LIBXML_NOCDATA);
-                $data = json_decode(json_encode($xml), true);
-                break;
-            case 'text/plain':
-            case 'application/javascript':
-            case 'text/html':
-                break;
-            case 'multipart/form-data':
-            default:
-                $data = \Yii::$app->request->post($name, $default);
-                break;
+        try {
+            switch ($contentType) {
+                case 'application/json':
+                    $data = json_decode(file_get_contents('php://input'), true);
+                    break;
+                case 'application/xml':
+                case 'text/xml':
+                    $xml = simplexml_load_string(file_get_contents('php://input'), 'SimpleXMLElement', LIBXML_NOCDATA);
+                    $data = json_decode(json_encode($xml), true);
+                    break;
+                case 'text/plain':
+                case 'application/javascript':
+                case 'text/html':
+                    break;
+                case 'multipart/form-data':
+                default:
+                    $data = \Yii::$app->request->post($name, $default);
+                    break;
 
+            }
+        } catch (\Exception $exception) {
+            // 修复如果解析报错则返回空数组，出现在xml或json格式不合法问题
         }
 
         return static::input($data, $name, $default);
