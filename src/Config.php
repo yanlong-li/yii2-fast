@@ -191,6 +191,11 @@ class Config
      */
     public static function arrayMerge($array1, $array2)
     {
+        if (!is_array($array1))
+            $array1 = [];
+        if (!is_array($array2)) {
+            $array2 = [];
+        }
         /**
          * 遍历数组2
          */
