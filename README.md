@@ -76,7 +76,7 @@ Yii2 快速开发扩展插件
     clear 清空
     has 判断是否存在
 ### Validator
-[验证器请参考ThikPHP](https://www.kancloud.cn/manual/thinkphp6_0/1037623)
+[验证器请参考ThinkPHP](https://www.kancloud.cn/manual/thinkphp6_0/1037623)
 部分功能未实现
 
 `ps:具体支不支持请关注更新日志和操作说明`
@@ -97,6 +97,10 @@ Yii2 快速开发扩展插件
  因为我比较懒
  
 ## 更新日志
+    
+    2019年8月31日
+    修复获取POST+GET参数时返回Null导致非数组不能合并报错问题
+
     2019年8月21日
     修复Request在接收Json或XML格式数据时数据格式不正确导致报错问题，返回空数组或默认值
     

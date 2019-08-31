@@ -27,8 +27,7 @@ class Request
     public static function param($name = null, $default = null)
     {
         // 合并Get和Post数据，以Post为主覆盖Get数据
-        $params = array_merge(static::get(), static::post());
-
+        $params = Config::arrayMerge(static::get(null, []), static::post(null, []));
         return static::input($params, $name, $default);
     }
 
