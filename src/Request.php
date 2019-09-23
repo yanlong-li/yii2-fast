@@ -31,6 +31,11 @@ class Request
         return static::input($params, $name, $default);
     }
 
+    public static function has($name)
+    {
+        return isset(static::param()[$name]);
+    }
+
     /**
      * 获取指定的参数
      * @access public
