@@ -31,6 +31,11 @@ class Request
         return static::input($params, $name, $default);
     }
 
+    /**
+     * 检测是否存在指定请求参数
+     * @param $name
+     * @return bool
+     */
     public static function has($name)
     {
         return isset(static::param()[$name]);

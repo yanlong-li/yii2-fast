@@ -97,7 +97,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
         $morphModelName = $this->$morphType;
         $primaryKey = null;
-        $alias = array_merge(static::$morphAlias, $alias);
+        $alias = Config::arrayMerge(static::$morphAlias, $alias);
         if (is_array($alias) && !empty($alias)) {
             if (isset($alias[$this->$morphType])) {
                 $morphModelName = $alias[$this->$morphType];
