@@ -303,13 +303,13 @@ class Request
      * @param string|false $name 字段名
      * @return mixed
      */
-    protected static function getData(array $data, $name)
+    protected static function getData($data, $name)
     {
         foreach (explode('.', $name) as $val) {
             if (isset($data[$val])) {
                 $data = $data[$val];
             } else {
-                return;
+                return null;
             }
         }
 
