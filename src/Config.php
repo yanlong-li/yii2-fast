@@ -57,10 +57,10 @@ class Config
                 unset($name[0]);
                 $name = implode('.', $name);
             } else {
-                return null;
+                return $default;
             }
 
-            return static::get($name, null, $config[$newName]);
+            return static::get($name, $default, $config[$newName]);
         }
     }
 
