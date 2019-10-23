@@ -46,6 +46,11 @@ class Config
             }
             $config = static::$config;
         }
+
+        if(isset($config[$name])){
+            return $config[$name];
+        }
+
         $name = explode('.', $name);
         if (count($name) == 1) {
             if (trim($name[0]) == '') return $config;
