@@ -57,6 +57,14 @@ class Config
 
             return isset($config[$name[0]]) ? $config[$name[0]] : $default;
         } else {
+
+            for ($i = 1; $i < count($name); $i++) {
+                $_name = implode('.', array_slice($name, 0, count($name) - $i));
+                if (isset($config[$_name])) {
+                    return static::get(implode('.', array_slice($name, count($name) - $i)), $default, $config[$_name]);
+                }
+            }
+
             if (isset($config[$name[0]])) {
                 $newName = $name[0];
                 unset($name[0]);
