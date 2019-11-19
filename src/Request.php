@@ -103,7 +103,7 @@ class Request
 
     public static function get($name = null, $default = null)
     {
-        $data = \Yii::$app->request->get($name, $default);
+        $data = \Yii::$app->request->get();
         return static::input($data, $name, $default);
     }
 
@@ -120,7 +120,7 @@ class Request
         } else {
             $contentType = $rawContentType;
         }
-        $data = $default;
+        $data = null;
         try {
             switch ($contentType) {
                 case 'application/json':
@@ -137,7 +137,7 @@ class Request
                     break;
                 case 'multipart/form-data':
                 default:
-                    $data = \Yii::$app->request->post($name, $default);
+                    $data = \Yii::$app->request->post();
                     break;
 
             }

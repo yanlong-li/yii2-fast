@@ -47,7 +47,7 @@ class Config
             $config = static::$config;
         }
 
-        if(isset($config[$name])){
+        if (isset($config[$name])) {
             return $config[$name];
         }
 
@@ -92,6 +92,11 @@ class Config
             //文件伪装成文件夹文件夹
             $basename = basename($path);
             $temp[] = $basename;
+            $temp[] = $basename;
+            //todo 支持本地化配置文件,下个版本增加 可自由选择是否排除本地化配置文件 可自定义本地化文件后缀 读取配置时可选择读取非本地化的原值
+            if (substr($basename, -10) !== '-local.php') {
+                $temp[] = substr($basename, 0, -4) . '-local' . substr($basename, -4);
+            }
             $path = substr($path, 0, -strlen($basename));
         } else {
             //读取文件夹
