@@ -8,8 +8,7 @@
     "yiisoft/yii2": "~2.0.36",
     "ext-json": "*",
     "ext-simplexml": "*",
-    "ext-libxml": "*",
-    "ext-exif": "*"
+    "ext-libxml": "*"
   },
   "autoload": {
     "psr-4": {

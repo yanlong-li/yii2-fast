@@ -3,6 +3,8 @@
 
 namespace yanlongli\yii2\fast\lib\schedule;
 
+use Exception;
+
 /**
  * 基础任务抽象类
  * Class Task
