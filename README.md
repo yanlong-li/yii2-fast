@@ -78,7 +78,24 @@ Yii2 快速开发扩展插件
 ### Validator
 [验证器请参考ThinkPHP](https://www.kancloud.cn/manual/thinkphp6_0/1037623)
 部分功能未实现
+### Schedule
+    
+    【参考】 Laravel 仅实现主要功能
+    
+    没有 before 和 after 、onSuccess 、 onFailure
+    这玩意你自己写的任务自己不知道啥时候执行还是结束？是成功还是失败？
 
+    继承 yanlongli\yii2\fast\Schedule
+    并实现 public function schedule();
+    
+    $this->call() 闭包函数，内部调用 call_user_func，支持携带参数
+    $this->command(string) 调用 Yii 执行命令
+    $this->exec(string) 调用 php exec 具有一定风险的功能，使用前请确保该函数已开启
+    $this->task(Task) 可执行继承自 yanlongli\yii2\fast\lib\schedule\Task 的任务，实现 run 方法，可重写 handleSuccess(run返回)、handleError(Exception)
+    
+    
+    
+    
 `ps:具体支不支持请关注更新日志和操作说明`
 ## 已支持
 |类名|用途|备注|
@@ -97,6 +114,12 @@ Yii2 快速开发扩展插件
  因为我比较懒
  
 ## 更新日志
+
+    2020年7月29日
+    新增任务调度功能
+    支持定时任务
+    支持频率调度任务，最低为 1分钟/次,最长支持年为单位
+    
     2019年11月14日
     改进Config 支持层级递归读取key中携带“.”的配置获取
     如：

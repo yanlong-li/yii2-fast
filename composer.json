@@ -5,7 +5,7 @@
   "homepage": "http://blog.yanlongli.com/",
   "require": {
     "php": ">=5.6.0",
-    "yiisoft/yii2": "~2.0.14",
+    "yiisoft/yii2": "~2.0.36",
     "ext-json": "*",
     "ext-simplexml": "*",
     "ext-libxml": "*",
@@ -26,7 +26,8 @@
     "cache",
     "session",
     "cookie",
-    "fast"
+    "fast",
+    "schedule"
   ],
   "license": "MIT",
   "authors": [
