@@ -71,6 +71,7 @@ abstract class Schedule extends \yii\base\Controller
                 // 执行任务
             } catch (\Exception $exception) {
                 // 处理错误异常
+                \Yii::warning("[code:{$exception->getCode()}][file:{$exception->getFile()}][line:{$exception->getLine()}] : " . $exception->getMessage());
             }
         }
     }
