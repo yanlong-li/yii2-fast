@@ -10,20 +10,28 @@
 namespace yanlongli\yii2\fast;
 
 
+use Yii;
+
 class Config
 {
     protected static $config = null;
+    protected static $originConfig = null;
     protected static $init = false;
+
+    /**
+     * @var string 本地化配置后缀，可以是非.php 结尾，但一定是符合php语法规范的
+     */
+    protected static $localSuffix = '-local.php';
 
     public static function init()
     {
         //加载公共配置
-        $commonConfigPath = \Yii::$app->basePath . '/../common/config';
+        $commonConfigPath = Yii::$app->basePath . '/../common/config';
         if (is_dir($commonConfigPath)) {
             static::LoadConfigFile($commonConfigPath);
         }
         //加载模块配置
-        $moduleConfigPath = \Yii::$app->basePath . '/config';
+        $moduleConfigPath = Yii::$app->basePath . '/config';
         static::LoadConfigFile($moduleConfigPath);
     }
 
@@ -33,8 +41,8 @@ class Config
      * key. 获取key下的所有数据 value
      *
      * @param string $name
-     * @param mixed $default
-     * @param mixed $config
+     * @param mixed  $default
+     * @param mixed  $config
      *
      * @return array|mixed|null
      */
@@ -42,7 +50,7 @@ class Config
     {
         if ($config == null) {
             if (is_null(static::$config)) {
-                static::$config['params'] = \Yii::$app->params;
+                static::$config['params'] = Yii::$app->params;
             }
             $config = static::$config;
         }
@@ -79,7 +87,7 @@ class Config
 
     /**
      * 加载配置文件 已支持递归合并数组
-     * @param $path
+     * @param      $path
      * @param null $config
      * @return null
      */
@@ -87,15 +95,15 @@ class Config
     {
         if (is_null($config)) {
             $config = &static::$config;
+            $originConfig = &static::$originConfig;
         }
         if (is_file($path)) {
             //文件伪装成文件夹文件夹
             $basename = basename($path);
             $temp[] = $basename;
             $temp[] = $basename;
-            //todo 支持本地化配置文件,下个版本增加 可自由选择是否排除本地化配置文件 可自定义本地化文件后缀 读取配置时可选择读取非本地化的原值
-            if (substr($basename, -10) !== '-local.php') {
-                $temp[] = substr($basename, 0, -4) . '-local' . substr($basename, -4);
+            if (substr($basename, -strlen(self::$localSuffix)) !== self::$localSuffix) {
+                $temp[] = substr($basename, 0, -4) . self::$localSuffix . substr($basename, -4);
             }
             $path = substr($path, 0, -strlen($basename));
         } else {
@@ -120,21 +128,22 @@ class Config
                 if (substr($v, 0, 1) == '.') {
                     continue;
                 } else {
-                    if (substr($v, -10) === '-local.php') {
+                    if (substr($v, -strlen(self::$localSuffix)) === self::$localSuffix) {
                         $k = substr($v, 0, -10);
                     } else {
                         $k = substr($v, 0, -4);
                     }
                     // 过滤 Yii 的主要配置文件
-                    if (in_array($k, ['main', 'codeception', 'bootstrap', 'test']) || substr($v, -4) !== '.php') {
+                    if (in_array($k, ['main', 'codeception', 'bootstrap', 'test', 'web', 'console']) || substr($v, -4) !== '.php') {
                         continue;
                     }
                     if (file_exists($a)) {
-                        $_config = require $a;
+                        $_config = self::safeRequire($a);
                         if (isset($config[$k])) {
                             $config[$k] = static::arrayMerge($config[$k], $_config);
                         } else {
                             $config[$k] = $_config;
+                            $originConfig[$k] = $config;
                         }
                     }
                 }
@@ -147,9 +156,9 @@ class Config
     /**
      * 设置配置参数 name为数组则为批量设置
      * @access public
-     * @param string|array $name 配置参数名（支持无限层级 .号分割）
-     * @param mixed $value 配置值
-     * @param array $config 配置，默认为Config
+     * @param string|array $name   配置参数名（支持无限层级 .号分割）
+     * @param mixed        $value  配置值
+     * @param array        $config 配置，默认为Config
      * @return mixed
      */
     public static function set($name, $value = null, &$config = null)
@@ -226,5 +235,24 @@ class Config
             }
         }
         return $array1;
+    }
+
+    /**
+     * 安全的引入配置文件,避免变量作用域溢出问题
+     * @param $file
+     * @return mixed
+     */
+    public static function safeRequire($file)
+    {
+        return require($file);
+    }
+
+    /**
+     * 获取原始参数
+     * @return null
+     */
+    public static function getOriginConfig()
+    {
+        return self::$originConfig;
     }
 }

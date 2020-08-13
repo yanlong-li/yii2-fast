@@ -9,6 +9,8 @@
 namespace yanlongli\yii2\fast;
 
 
+use Yii;
+
 class Lang
 {
 
@@ -16,7 +18,7 @@ class Lang
     {
         $category = $category === null ? self::$category : $category;
 
-        return \Yii::t($category, $message, $params, $language);
+        return Yii::t($category, $message, $params, $language);
     }
 
     /**
@@ -26,7 +28,7 @@ class Lang
     public static function init($category = 'app')
     {
         static::$category = $category;
-        \Yii::$app->language = static::getLang();
+        Yii::$app->language = static::getLang();
     }
 
     public static $category = 'app';
@@ -34,7 +36,7 @@ class Lang
     public static function getLang()
     {
         // 修复console命令执行yii2框架 导致Request模型不一致导致报错问题
-        if (\Yii::$app->request instanceof \yii\web\Request) {
+        if (Yii::$app->request instanceof \yii\web\Request) {
             // 先檢測用戶是否設定顯示語言
             if (Request::param('language/s')) {
                 return static::langAliases(Request::param('language/s'));
@@ -48,7 +50,7 @@ class Lang
         if (self::getBrowserLanguage()) {
             return self::getBrowserLanguage();
         } else {
-            return \Yii::$app->language;
+            return Yii::$app->language;
         }
     }
 
@@ -81,7 +83,7 @@ class Lang
     {
 
         if (is_null(self::$langAliases)) {
-            self::$langAliases = require __DIR__ . '/lib/lang/lang.aliases.php';
+            self::$langAliases = require Config::safeRequire(__DIR__ . '/lib/lang/lang.aliases.php');
         }
         $langKey = null;
         foreach (self::$langAliases as $key => $alias) {
@@ -102,6 +104,6 @@ class Lang
      */
     public function setLang($lang)
     {
-        \Yii::$app->language = self::langAliases($lang);
+        Yii::$app->language = self::langAliases($lang);
     }
 }
