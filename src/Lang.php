@@ -83,7 +83,7 @@ class Lang
     {
 
         if (is_null(self::$langAliases)) {
-            self::$langAliases = require Config::safeRequire(__DIR__ . '/lib/lang/lang.aliases.php');
+            self::$langAliases = Config::safeRequire(__DIR__ . '/lib/lang/lang.aliases.php');
         }
         $langKey = null;
         foreach (self::$langAliases as $key => $alias) {
