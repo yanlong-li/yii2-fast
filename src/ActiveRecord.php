@@ -10,6 +10,7 @@
 namespace yanlongli\yii2\fast;
 
 
+use yii\base\Arrayable;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveQuery;
 
@@ -447,7 +448,13 @@ class ActiveRecord extends \yii\db\ActiveRecord
         $data = parent::toArray($fields, $expand, $recursive);
         $related = $this->getRelatedRecords();
         foreach ($related as $key => $item) {
-            $data[$key] = $item->toArray();
+            if ($item instanceof Arrayable) {
+                $data[$key] = $item->toArray();
+            } else {
+                $data[$key] = array_map(function ($_item) {
+                    return $_item->toArray();
+                }, $item);
+            }
         }
         return $data;
     }
