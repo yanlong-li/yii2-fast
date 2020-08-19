@@ -434,4 +434,21 @@ class ActiveRecord extends \yii\db\ActiveRecord
     {
         return $this->getPrimaryKey();
     }
+
+    /**
+     * 模型转数组，并同时返回关联数据
+     * @param array $fields
+     * @param array $expand
+     * @param bool  $recursive
+     * @return mixed
+     */
+    public function toArray(array $fields = [], array $expand = [], $recursive = true)
+    {
+        $data = parent::toArray($fields, $expand, $recursive);
+        $related = $this->getRelatedRecords();
+        foreach ($related as $key => $item) {
+            $data[$key] = $item->toArray();
+        }
+        return $data;
+    }
 }
