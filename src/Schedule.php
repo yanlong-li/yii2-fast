@@ -36,16 +36,13 @@ abstract class Schedule extends \yii\base\Controller
     final public function actionIndex()
     {
         $nowTime = time();
-        $firstRunTime = \Yii::$app->cache->getOrSet('yii2-fast:schedule:last-runtime', function () use ($nowTime) {
-            return $nowTime;
-        });
 
-        // 初次运行，忽略任务
-        if ($firstRunTime === $nowTime) {
+        // 时间异常
+        if (0 === $nowTime) {
             return;
         }
 
-        $this->degree = (int)(($nowTime - $firstRunTime) / 60);
+        $this->degree = (int)($nowTime  / 60);
 
         // 启动时间
         $this->startTime = microtime(true);
