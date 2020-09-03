@@ -24,11 +24,16 @@ class Lang
     /**
      * 初始化语言包
      * @param string $category
+     * @param array  $allowLanguages 允许使用的语言列表
      */
-    public static function init($category = 'app')
+    public static function init($category = 'app', $allowLanguages = [])
     {
         static::$category = $category;
-        Yii::$app->language = static::getLang();
+        $lang = static::getLang();
+        // 如果限定语言为空或者在名单中，则允许设定
+        if (empty($allowLanguages) || in_array($lang, $allowLanguages)) {
+            Yii::$app->language = $lang;
+        }
     }
 
     public static $category = 'app';
