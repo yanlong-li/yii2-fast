@@ -14,6 +14,8 @@ use Yii;
 class Lang
 {
 
+    protected static $applicationLanguage = null;
+
     public static function t($message, $params = [], $category = null, $language = null)
     {
         $category = $category === null ? self::$category : $category;
@@ -28,6 +30,14 @@ class Lang
      */
     public static function init($category = 'app', $allowLanguages = [])
     {
+        // 保存应用原始数据
+        if (self::$applicationLanguage) {
+            self::$applicationLanguage = Yii::$app->language;
+        } else {
+            // 恢复原始数据
+            Yii::$app->language = self::$applicationLanguage;
+        }
+
         static::$category = $category;
         $lang = static::getLang();
         // 如果限定语言为空或者在名单中，则允许设定
