@@ -31,7 +31,7 @@ class Lang
     public static function init($category = 'app', $allowLanguages = [])
     {
         // 保存应用原始数据
-        if (self::$applicationLanguage) {
+        if (!self::$applicationLanguage) {
             self::$applicationLanguage = Yii::$app->language;
         } else {
             // 恢复原始数据
