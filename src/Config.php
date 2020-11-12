@@ -25,10 +25,14 @@ class Config
 
     public static function init()
     {
-        //加载公共配置
-        $commonConfigPath = Yii::$app->basePath . '/../common/config';
-        if (is_dir($commonConfigPath)) {
-            static::LoadConfigFile($commonConfigPath);
+        try {
+            //加载公共配置
+            $commonConfigPath = Yii::$app->basePath . '/../common/config';
+            if (is_dir($commonConfigPath)) {
+                static::LoadConfigFile($commonConfigPath);
+            }
+        } catch (\Exception $exception) {
+            // 忽略错误 open_basedir
         }
         //加载模块配置
         $moduleConfigPath = Yii::$app->basePath . '/config';
