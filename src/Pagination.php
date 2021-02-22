@@ -39,14 +39,12 @@ trait Pagination
             $_queryData = call_user_func($param['modifyData'], $_queryData);
         }
 
-        $data = [
+        return [
             'size' => (int)$pages->pageSize,
             'total' => (int)$pages->totalCount,
             'page' => (int)$pages->page + 1,
             'count' => (int)$pages->pageCount,
             'list' => $_queryData,
         ];
-
-        return $data;
     }
 }

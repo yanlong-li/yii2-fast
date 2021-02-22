@@ -12,6 +12,12 @@ namespace yanlongli\yii2\fast;
 
 use yanlongli\yii2\fast\lib\validate\ValidateRule;
 
+/**
+ *
+ * @deprecated 验证逻辑是复杂的，尽管提供了一些常见验证仍不能满足需求，使用场景也较少，故废弃。
+ * Class Validator
+ * @package yanlongli\yii2\fast
+ */
 class Validator
 {
 

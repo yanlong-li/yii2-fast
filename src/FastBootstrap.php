@@ -26,7 +26,7 @@ class FastBootstrap implements BootstrapInterface
             // 初始化加载配置文件
             Config::init();
             // 初始化语言支持
-            Lang::init();
+//            Lang::init();
         });
     }
 }
